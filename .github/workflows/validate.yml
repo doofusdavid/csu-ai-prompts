@@ -1,0 +1,85 @@
+name: Validate & Build Catalog
+
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install pyyaml jsonschema
+      - name: Validate prompts and build catalog
+        run: |
+          python - <<'PY'
+          import os, json, re, yaml, sys
+          from jsonschema import validate, ValidationError
+
+          # Load schema
+          with open('schema/prompt.schema.json','r') as f:
+            schema = json.load(f)
+
+          # Load TAGS
+          with open('TAGS.md','r') as f:
+            tags_md = f.read()
+          allowed = set()
+          for line in tags_md.splitlines():
+            line=line.strip()
+            if line and not line.startswith('#') and not line.endswith(':') and not line.startswith('## '):
+              if re.match(r'^[-*] ', line):
+                allowed.add(line[2:].strip())
+          # Front-matter regex
+          fm = re.compile(r'^---\n(.*?)\n---\n', re.S)
+
+          failures = []
+          catalog = []
+
+          for root, _, files in os.walk('prompts'):
+            if 'prompt.md' in files:
+              p = os.path.join(root,'prompt.md')
+              with open(p,'r',encoding='utf-8') as f:
+                txt = f.read()
+              m = fm.match(txt)
+              if not m:
+                failures.append(f"Missing front-matter: {p}")
+                continue
+              try:
+                meta = yaml.safe_load(m.group(1)) or {}
+                validate(meta, schema)
+                # tag check
+                for t in meta.get('tags',[]):
+                  if t not in allowed:
+                    failures.append(f"Unknown tag '{t}' in {p}")
+                # ferpa notes check
+                if meta.get('ferpa_sensitive') and not meta.get('security_notes'):
+                  failures.append(f"ferpa_sensitive true but no security_notes: {p}")
+                body = txt[m.end():].strip()
+                catalog.append({
+                  'slug': meta['slug'],
+                  'path': p,
+                  'meta': meta,
+                  'body': body
+                })
+              except ValidationError as e:
+                failures.append(f"Schema error in {p}: {e.message}")
+          os.makedirs('exports', exist_ok=True)
+          with open('exports/catalog.jsonl','w',encoding='utf-8') as out:
+            for item in catalog:
+              out.write(json.dumps(item, ensure_ascii=False) + "\n")
+          if failures:
+            print("\n".join(failures))
+            sys.exit(1)
+          PY
+      - name: Upload catalog artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: catalog
+          path: exports/catalog.jsonl

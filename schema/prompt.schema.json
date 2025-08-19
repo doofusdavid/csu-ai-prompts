@@ -1,0 +1,40 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": [
+    "title",
+    "slug",
+    "version",
+    "status",
+    "audience",
+    "domain",
+    "tags",
+    "license",
+    "ferpa_sensitive"
+  ],
+  "properties": {
+    "title": { "type": "string", "minLength": 3 },
+    "slug": { "type": "string", "pattern": "^[a-z0-9-]+$" },
+    "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
+    "status": { "enum": ["draft", "active", "deprecated"] },
+    "audience": { "enum": ["undergraduate", "graduate", "staff", "faculty", "mixed"] },
+    "domain": { "enum": ["teaching", "research", "admin", "it", "student-life"] },
+    "roles": { "type": "array", "items": { "type": "string" } },
+    "modalities": { "type": "array", "items": { "type": "string" } },
+    "models": { "type": "array", "items": { "type": "string" } },
+    "temperature": { "type": "number", "minimum": 0, "maximum": 2 },
+    "tags": { "type": "array", "items": { "type": "string" }, "minItems": 1 },
+    "dependencies": { "type": "array", "items": { "type": "string" } },
+    "author": { "type": "string" },
+    "license": { "type": "string" },
+    "ferpa_sensitive": { "type": "boolean" },
+    "security_notes": { "type": "string" },
+    "evaluation": {
+      "type": "object",
+      "properties": {
+        "success_criteria": { "type": "array", "items": { "type": "string" } },
+        "quick_test": { "type": "string" }
+      }
+    }
+  }
+}

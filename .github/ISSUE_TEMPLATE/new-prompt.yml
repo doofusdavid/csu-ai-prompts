@@ -1,0 +1,6 @@
+name: New prompt
+description: Propose a new prompt for the catalog
+labels: ["new prompt"]
+body:
+  - type: input
+    id: t
