@@ -1,3 +1,7 @@
-All prompt content (markdown, examples) is licensed under CC BY 4.0.
-All code (CI workflows, scripts) is licensed under MIT.
-See [CC-BY-4.0](LICENSES/CC-BY-4.0.txt) and [MIT](LICENSES/MIT.txt) for full texts.
+This repository uses multiple licenses:
+
+- Prompt content (markdown and examples) is licensed under Creative Commons Attribution 4.0 International (CC BY 4.0).
+  Full text: LICENSES/CC-BY-4.0.txt
+
+- Code (CI workflows, scripts) is licensed under the MIT License.
+  Full text: LICENSES/MIT.txt
