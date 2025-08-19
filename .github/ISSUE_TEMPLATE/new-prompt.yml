@@ -3,4 +3,52 @@ description: Propose a new prompt for the catalog
 labels: ["new prompt"]
 body:
   - type: input
-    id: t
+    id: title
+    attributes:
+      label: Title
+      placeholder: e.g., Socratic Check-ins for Weekly Problem Sets
+    validations:
+      required: true
+  - type: dropdown
+    id: domain
+    attributes:
+      label: Domain
+      options: [teaching, research, admin, it, student-life]
+    validations:
+      required: true
+  - type: input
+    id: slug
+    attributes:
+      label: Slug (kebab-case)
+      placeholder: e.g., socratic-checkins
+    validations:
+      required: true
+  - type: textarea
+    id: tags
+    attributes:
+      label: Tags (comma-separated)
+      placeholder: socratic, tutoring, subject/math
+  - type: dropdown
+    id: audience
+    attributes:
+      label: Audience
+      options: [undergraduate, graduate, staff, faculty, mixed]
+    validations:
+      required: true
+  - type: textarea
+    id: body
+    attributes:
+      label: Prompt body (include any system instructions and operator guidance)
+      render: markdown
+    validations:
+      required: true
+  - type: textarea
+    id: security
+    attributes:
+      label: Security & privacy notes (FERPA)
+      description: If student data may be involved, describe how to anonymize it.
+  - type: textarea
+    id: example
+    attributes:
+      label: Example (input and expected style of output)
+      description: Paste a minimal example.

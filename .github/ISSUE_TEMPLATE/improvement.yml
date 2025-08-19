@@ -1,2 +1,18 @@
-name: Improve prompt
-Placeholder
+name: Improve existing prompt
+description: Propose edits, new tags, or examples for an existing prompt
+labels: ["enhancement"]
+body:
+  - type: input
+    id: path
+    attributes:
+      label: Prompt path or slug
+      placeholder: prompts/teaching/socratic-checkins
+    validations:
+      required: true
+  - type: textarea
+    id: change
+    attributes:
+      label: Proposed change
+      render: markdown
+    validations:
+      required: true
