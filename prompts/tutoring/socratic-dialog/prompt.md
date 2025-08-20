@@ -3,6 +3,7 @@ title: Socratic Dialog
 version: 1.0
 status: draft
 author: Brian Kelly
+audience: [undergraduate, graduate, faculty]
 ---
 
 GOAL 
