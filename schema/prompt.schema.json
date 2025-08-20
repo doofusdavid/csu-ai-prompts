@@ -11,7 +11,12 @@
   "properties": {
     "title": { "type": "string", "minLength": 3 },
     "slug": { "type": "string", "pattern": "^[a-z0-9-]+$" },
-    "version": { "type": "string", "pattern": "^[0-9]+(\\.[0-9]+)*$" },
+    "version": {
+      "anyOf": [
+        { "type": "string", "pattern": "^[0-9]+(\\.[0-9]+)*$" },
+        { "type": "number" }
+      ]
+    },
     "status": { "enum": ["draft", "active", "deprecated"] },
     "audience": {
       "type": "array",
