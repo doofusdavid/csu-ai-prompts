@@ -1,5 +1,6 @@
 ---
 title: Socratic Dialog
+slug: socratic-dialog
 version: 1.0
 status: draft
 author: Brian Kelly

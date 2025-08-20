@@ -1,5 +1,6 @@
 ---
 title: Topic Tutor
+slug: topic-tutor
 version: 1.0
 status: draft
 author: Brian Kelly
