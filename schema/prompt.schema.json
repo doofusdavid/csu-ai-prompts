@@ -3,22 +3,34 @@
   "type": "object",
   "required": [
     "title",
-    "slug",
     "version",
     "status",
     "audience",
-    "domain",
-    "tags",
-    "license",
-    "ferpa_sensitive"
+    "domain"
   ],
   "properties": {
     "title": { "type": "string", "minLength": 3 },
     "slug": { "type": "string", "pattern": "^[a-z0-9-]+$" },
     "version": { "type": "string", "pattern": "^\\d+\\.\\d+\\.\\d+$" },
     "status": { "enum": ["draft", "active", "deprecated"] },
-    "audience": { "enum": ["undergraduate", "graduate", "staff", "faculty", "mixed"] },
-    "domain": { "enum": ["teaching", "research", "admin", "it", "student-life"] },
+    "audience": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["undergraduate", "graduate", "staff", "faculty", "mixed"]
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "domain": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": ["teaching", "research", "productivity"]
+      },
+      "minItems": 1,
+      "uniqueItems": true
+    },
     "roles": { "type": "array", "items": { "type": "string" } },
     "modalities": { "type": "array", "items": { "type": "string" } },
     "models": { "type": "array", "items": { "type": "string" } },

@@ -5,9 +5,7 @@ Keep tags short and scoped. Propose additions via PR.
 ## Domains
 - teaching
 - research
-- admin
-- it
-- student-life
+- productivity
 
 ## Roles
 - role/student
